@@ -1,0 +1,241 @@
+
+.dashboard {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 32px;
+  box-sizing: border-box;
+  color: #1f2937;
+  text-align: left;
+}
+
+.dashboard-header {
+  margin-bottom: 32px;
+}
+
+.dashboard-header h1 {
+  font-size: 30px;
+  margin: 0 0 8px;
+  color: #111827;
+}
+
+.dashboard-header p {
+  margin: 0 0 8px;
+  color: #6b7280;
+}
+
+.demo-label {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+/* 集計カード */
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(200px, 1fr)
+  );
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.dashboard-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.card-label {
+  color: #6b7280;
+  font-size: 14px;
+  margin: 0 0 12px;
+}
+
+.card-value {
+  font-size: 32px;
+  font-weight: bold;
+  color: #111827;
+}
+
+.card-unit {
+  font-size: 14px;
+  font-weight: normal;
+  margin-left: 6px;
+}
+
+/* 各セクション */
+.dashboard-section {
+  margin-bottom: 36px;
+}
+
+.dashboard-section h2 {
+  font-size: 22px;
+  margin-bottom: 16px;
+  color: #111827;
+}
+
+/* テーブル */
+.dashboard-table-wrapper {
+  overflow-x: auto;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+}
+
+.dashboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.dashboard-table th {
+  background: #f3f4f6;
+  color: #374151;
+  padding: 16px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.dashboard-table td {
+  padding: 16px;
+  border-top: 1px solid #e5e7eb;
+  color: #374151;
+  white-space: nowrap;
+}
+
+.dashboard-table tbody tr:hover {
+  background: #f9fafb;
+}
+
+/* 混雑率 */
+.occupancy-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.occupancy-bar {
+  width: 90px;
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.occupancy-fill {
+  height: 100%;
+  border-radius: 10px;
+}
+
+.occupancy-fill.low {
+  background: #22c55e;
+}
+
+.occupancy-fill.medium {
+  background: #f59e0b;
+}
+
+.occupancy-fill.high {
+  background: #ef4444;
+}
+
+/* 状態表示 */
+.status-badge {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.status-low {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status-medium {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-high {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.shortage-value {
+  color: #dc2626 !important;
+  font-weight: bold;
+}
+
+/* スマホ・小画面対応 */
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 16px;
+  }
+
+  .dashboard-header h1 {
+    font-size: 24px;
+  }
+
+  .dashboard-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dashboard-card {
+    padding: 16px;
+  }
+
+  .card-value {
+    font-size: 26px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* 更新操作 */
+.dashboard-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.refresh-button {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.refresh-button:hover:not(:disabled) {
+  background-color: #1d4ed8;
+}
+
+.refresh-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.last-updated {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.dashboard-error {
+  color: #b91c1c;
+  margin-top: 12px;
+}
