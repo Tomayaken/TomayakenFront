@@ -73,3 +73,38 @@ export default defineConfig([
 ])
 
 ```
+
+## ファイル構成
+src/
+│
+├── components/
+│   ├── Sidebar.tsx
+│   ├── Header.tsx
+│   ├── StatCard.tsx
+│   └── ShelterTable.tsx
+│
+├── pages/
+│   ├── Login.tsx
+│   ├── Dashboard.tsx
+│   ├── Shelters.tsx
+│   ├── ShelterDetail.tsx
+│   ├── Evacuees.tsx
+│   └── Supplies.tsx
+│
+├── layouts/
+│   └── MainLayout.tsx
+│
+├── services/
+│   └── api.ts
+│
+├── types/
+│   ├── shelter.ts
+│   ├── user.ts
+│   └── supply.ts
+│
+├── data/
+│   └── mockData.ts
+│
+├── App.tsx
+├── main.tsx
+└── router.tsx
