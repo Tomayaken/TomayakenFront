@@ -1,7 +1,15 @@
-import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
+import Sidebar from "./components/Sidebar";
 
 function App() {
-  return <Login />;
+  return (
+    <div style={{ display: "flex" }}>
+      <Sidebar />
+      <div style={{ marginLeft: "250px" }}>
+        <Dashboard />
+      </div>
+    </div>
+  );
 }
 
 export default App;

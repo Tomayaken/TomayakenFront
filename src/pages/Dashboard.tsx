@@ -1,4 +1,4 @@
-
+import Sidebar from "../components/Sidebar";
 import { useCallback, useEffect, useState } from "react";
 
 import {
@@ -53,6 +53,7 @@ export default function Dashboard() {
   }, [handleRefresh]);
 
   return (
+    
     <main className="dashboard">
       {/* ヘッダー */}
       <header className="dashboard-header">
