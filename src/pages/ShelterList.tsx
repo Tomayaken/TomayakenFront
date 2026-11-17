@@ -1,126 +1,216 @@
 
-import { useState } from "react";
-import { shelters } from "../data/mockDashboard";
+import { useEffect, useState } from "react";
+import { shelters as mockShelters } from "../data/mockDashboard";
 import type { Shelter } from "../data/mockDashboard";
+import { getShelters } from "../services/shelterApi";
+import type { Shelter as ApiShelter } from "../services/shelterApi";
 import "./ShelterList.css";
 
-// 親コンポーネント(App.tsx)から受け取る関数
 type ShelterListProps = {
   onSelectShelter: (shelter: Shelter) => void;
 };
 
-function ShelterList({ onSelectShelter }: ShelterListProps) {
-  // 検索欄の入力内容
-  const [search, setSearch] = useState("");
+const API_ENABLED = Boolean(import.meta.env.VITE_API_BASE_URL);
 
-  // 避難所名による検索
+function convertShelter(shelter: ApiShelter): Shelter {
+  return {
+    id: shelter.id,
+    name: shelter.name,
+    currentCount: shelter.currentOccupancy,
+    predictedCount: null,
+    capacity: shelter.capacity,
+    isOverCapacity: shelter.isOverCapacity,
+  };
+}
+
+function ShelterList({ onSelectShelter }: ShelterListProps) {
+  const [search, setSearch] = useState("");
+  const [shelters, setShelters] = useState<Shelter[]>(
+    API_ENABLED ? [] : mockShelters
+  );
+  const [loading, setLoading] = useState(API_ENABLED);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!API_ENABLED) return;
+
+    let active = true;
+    let requesting = false;
+
+    const fetchShelters = async () => {
+      if (requesting) return;
+      requesting = true;
+
+      try {
+        const data = await getShelters();
+
+        if (!active) return;
+
+        setShelters(data.map(convertShelter));
+        setError(null);
+      } catch (err) {
+        if (!active) return;
+
+        setError(
+          err instanceof Error
+            ? err.message
+            : "避難所情報の取得に失敗しました。"
+        );
+      } finally {
+        requesting = false;
+        if (active) setLoading(false);
+      }
+    };
+
+    void fetchShelters();
+
+    const intervalId = window.setInterval(() => {
+      void fetchShelters();
+    }, 10000);
+
+    return () => {
+      active = false;
+      window.clearInterval(intervalId);
+    };
+  }, []);
+
   const filteredShelters = shelters.filter((shelter) =>
     shelter.name.toLowerCase().includes(search.toLowerCase())
   );
 
-  // 混雑率を計算
-  const getOccupancyRate = (current: number, capacity: number) => {
-    if (capacity === 0) return 0;
-    return Math.round((current / capacity) * 100);
-  };
-
-  // 混雑状況を判定
-  const getStatus = (rate: number) => {
-    if (rate >= 80) return "混雑";
-    if (rate >= 50) return "通常";
-    return "空きあり";
-  };
-
   return (
     <div className="shelter-list-page">
-      <h1>避難所管理</h1>
+      <div className="shelter-list-header">
+        <div>
+          <h1>避難所管理</h1>
+          <p className="shelter-list-description">
+            各避難所の人数や混雑状況を確認できます。
+          </p>
+        </div>
+        <span className="shelter-list-count">
+          全 {filteredShelters.length} 件
+        </span>
+      </div>
 
-      <p className="shelter-list-description">
-        各避難所の人数や混雑状況を確認できます。
-      </p>
+      {!API_ENABLED && (
+        <p className="shelter-list-notice">
+          現在はサンプルデータを表示しています。
+        </p>
+      )}
 
-      {/* 検索欄 */}
+      {error && (
+        <p className="shelter-list-error" role="alert">
+          {error}
+        </p>
+      )}
+
       <div className="shelter-list-toolbar">
         <input
           type="search"
           placeholder="避難所名で検索"
+          aria-label="避難所名で検索"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-
-        <span>全 {filteredShelters.length} 件</span>
       </div>
 
-      {/* 避難所一覧テーブル */}
-      <div className="shelter-list-table-wrapper">
-        <table className="shelter-list-table">
-          <thead>
-            <tr>
-              <th>避難所名</th>
-              <th>現在の避難者数</th>
-              <th>到着見込み</th>
-              <th>収容人数</th>
-              <th>混雑率</th>
-              <th>混雑状況</th>
-            </tr>
-          </thead>
+      {loading && (
+        <p className="shelter-list-empty">
+          避難所情報を読み込み中...
+        </p>
+      )}
 
-          <tbody>
-            {filteredShelters.map((shelter) => {
-              const rate = getOccupancyRate(
-                shelter.currentCount,
-                shelter.capacity
-              );
+      {!loading && (
+        <div className="shelter-card-grid">
+          {filteredShelters.map((shelter) => {
+            const rate =
+              shelter.capacity > 0
+                ? Math.round(
+                    (shelter.currentCount / shelter.capacity) * 100
+                  )
+                : 0;
 
-              const status = getStatus(rate);
+            const isOverCapacity =
+              shelter.isOverCapacity ??
+              shelter.currentCount > shelter.capacity;
 
-              return (
-                <tr key={shelter.id}>
-                  {/* 避難所名をクリックすると詳細ページへ */}
-                  <td>
-                    <button
-                      type="button"
-                      className="shelter-name-button"
-                      onClick={() => onSelectShelter(shelter)}
-                    >
-                      {shelter.name}
-                    </button>
-                  </td>
+            const status = isOverCapacity
+              ? "定員超過"
+              : rate >= 80
+              ? "混雑"
+              : rate >= 50
+              ? "通常"
+              : "空きあり";
 
-                  <td>{shelter.currentCount} 人</td>
+            const statusClass =
+              isOverCapacity || rate >= 80
+                ? "crowded"
+                : rate >= 50
+                ? "normal"
+                : "available";
 
-                  <td>{shelter.predictedCount} 人</td>
+            return (
+              <button
+                key={shelter.id}
+                type="button"
+                className="shelter-card"
+                onClick={() => onSelectShelter(shelter)}
+                aria-label={`${shelter.name}の詳細を見る`}
+              >
+                <div className="shelter-card-header">
+                  <h2>{shelter.name}</h2>
+                  <span className={`shelter-status ${statusClass}`}>
+                    {status}
+                  </span>
+                </div>
 
-                  <td>{shelter.capacity} 人</td>
+                <div className="shelter-card-body">
+                  <p className="shelter-card-label">
+                    現在の避難者数
+                  </p>
 
-                  <td>{rate}%</td>
+                  <div className="shelter-card-occupancy">
+                    <strong>{shelter.currentCount}</strong>
+                    <span>/ {shelter.capacity} 人</span>
+                  </div>
 
-                  <td>
-                    <span
-                      className={`shelter-status ${
-                        rate >= 80
-                          ? "crowded"
-                          : rate >= 50
-                          ? "normal"
-                          : "available"
-                      }`}
-                    >
-                      {status}
+                  <div
+                    className="shelter-card-progress"
+                    role="progressbar"
+                    aria-label="収容率"
+                    aria-valuemin={0}
+                    aria-valuemax={100}
+                    aria-valuenow={Math.max(0, Math.min(rate, 100))}
+                    aria-valuetext={`${rate}%`}
+                  >
+                    <div
+                      className={`shelter-card-progress-fill ${statusClass}`}
+                      style={{
+                        width: `${Math.max(0, Math.min(rate, 100))}%`,
+                      }}
+                    />
+                  </div>
+
+                  <div className="shelter-card-footer">
+                    <span>収容率 {rate}%</span>
+                    <span className="shelter-card-link">
+                      詳細を見る →
                     </span>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+                  </div>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      )}
 
-        {/* 検索結果がない場合 */}
-        {filteredShelters.length === 0 && (
-          <p className="shelter-list-empty">
-            該当する避難所がありません。
-          </p>
-        )}
-      </div>
+      {!loading && filteredShelters.length === 0 && (
+        <p className="shelter-list-empty">
+          {error
+            ? "避難所情報を表示できません。"
+            : "該当する避難所がありません。"}
+        </p>
+      )}
     </div>
   );
 }
