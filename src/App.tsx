@@ -4,6 +4,7 @@ import Dashboard from "./pages/Dashboard";
 import ShelterList from "./pages/ShelterList";
 import ShelterDetail from "./pages/ShelterDetail";
 import Sidebar from "./components/Sidebar";
+import Header from "./components/Header";
 import type { Shelter } from "./data/mockDashboard";
 
 type Page = "dashboard" | "shelters";
@@ -29,6 +30,8 @@ function App() {
           boxSizing: "border-box",
         }}
       >
+        <Header />
+
         {page === "dashboard" && <Dashboard />}
 
         {page === "shelters" && (
