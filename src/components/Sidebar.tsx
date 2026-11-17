@@ -1,4 +1,9 @@
-function Sidebar() {
+
+type SidebarProps = {
+  onNavigate: (page: "dashboard" | "shelters") => void;
+};
+
+function Sidebar({ onNavigate }: SidebarProps) {
   return (
     <div
       style={{
@@ -7,18 +12,23 @@ function Sidebar() {
         backgroundColor: "#1e293b",
         color: "white",
         padding: "20px",
-
+        boxSizing: "border-box",
         position: "fixed",
         top: 0,
         left: 0,
       }}
     >
       <h2>避難所管理</h2>
-
       <hr />
 
-      <p>🏠 ダッシュボード</p>
-      <p>🏢 避難所管理</p>
+      <p onClick={() => onNavigate("dashboard")} style={{ cursor: "pointer" }}>
+        🏠 ダッシュボード
+      </p>
+
+      <p onClick={() => onNavigate("shelters")} style={{ cursor: "pointer" }}>
+        🏢 避難所管理
+      </p>
+
       <p>👥 避難者管理</p>
       <p>📦 物資管理</p>
       <p>⚙ 設定</p>

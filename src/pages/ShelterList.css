@@ -1,0 +1,136 @@
+
+.shelter-list-page {
+  width: 100%;
+  min-width: 0;
+  padding: 32px;
+  box-sizing: border-box;
+  color: #0f172a;
+}
+
+.shelter-list-page h1 {
+  margin: 0 0 12px;
+  font-size: 30px;
+  color: #0f172a;
+}
+
+.shelter-list-description {
+  margin: 0 0 28px;
+  color: #64748b;
+}
+
+.shelter-list-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.shelter-list-toolbar input {
+  width: 300px;
+  max-width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: white;
+  color: #0f172a;
+  font-size: 14px;
+}
+
+.shelter-list-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+}
+
+.shelter-list-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.shelter-list-table th,
+.shelter-list-table td {
+  padding: 18px 20px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.shelter-list-table th {
+  background: #f8fafc;
+  color: #475569;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.shelter-list-table td {
+  font-size: 15px;
+}
+
+.shelter-list-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.shelter-list-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+.shelter-status {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.shelter-status.crowded {
+  color: #b91c1c;
+  background: #fee2e2;
+}
+
+.shelter-status.normal {
+  color: #92400e;
+  background: #fef3c7;
+}
+
+.shelter-status.available {
+  color: #15803d;
+  background: #dcfce7;
+}
+
+.shelter-list-empty {
+  padding: 24px;
+  text-align: center;
+  color: #64748b;
+}
+
+@media (max-width: 768px) {
+  .shelter-list-page {
+    padding: 16px;
+  }
+
+  .shelter-list-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .shelter-list-toolbar input {
+    width: 100%;
+  }
+.shelter-name-button {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #2563eb;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.shelter-name-button:hover {
+  text-decoration: underline;
+}
+
+}
