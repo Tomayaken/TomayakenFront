@@ -1,4 +1,3 @@
-import Sidebar from "../components/Sidebar";
 import { useCallback, useEffect, useState } from "react";
 
 import {

@@ -1,10 +1,11 @@
 
 export type Shelter = {
-  id: number;
+  id: string;
   name: string;
   currentCount: number;
-  predictedCount: number;
+  predictedCount: number | null;
   capacity: number;
+  isOverCapacity?: boolean;
 };
 
 export type Supply = {
@@ -19,21 +20,21 @@ export type Supply = {
 // 避難所データ
 export const shelters: Shelter[] = [
   {
-    id: 1,
+    id: "1",
     name: "避難所A",
     currentCount: 100,
     predictedCount: 40,
     capacity: 200,
   },
   {
-    id: 2,
+    id: "2",
     name: "避難所B",
     currentCount: 95,
     predictedCount: 30,
     capacity: 100,
   },
   {
-    id: 3,
+    id: "3",
     name: "避難所C",
     currentCount: 50,
     predictedCount: 15,
@@ -95,7 +96,7 @@ export const dashboardData = [
   {
     label: "到着見込み人数",
     value: shelters.reduce(
-      (sum, shelter) => sum + shelter.predictedCount,
+      (sum, shelter) => sum + (shelter.predictedCount ?? 0),
       0
     ),
     unit: "人",
