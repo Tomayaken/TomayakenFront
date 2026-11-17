@@ -3,11 +3,12 @@ import { useState } from "react";
 import Dashboard from "./pages/Dashboard";
 import ShelterList from "./pages/ShelterList";
 import ShelterDetail from "./pages/ShelterDetail";
+import Busshikanri from "./pages/Busshikanri";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import type { Shelter } from "./data/mockDashboard";
 
-type Page = "dashboard" | "shelters";
+type Page = "dashboard" | "shelters" | "supplies";
 
 function App() {
   const [page, setPage] = useState<Page>("dashboard");
@@ -33,6 +34,8 @@ function App() {
         <Header />
 
         {page === "dashboard" && <Dashboard />}
+
+        {page === "supplies" && <Busshikanri />}
 
         {page === "shelters" && (
           selectedShelter ? (

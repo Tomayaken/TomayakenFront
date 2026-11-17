@@ -1,0 +1,197 @@
+.supplies-page {
+  width: 100%;
+  min-width: 0;
+  padding: 32px;
+  box-sizing: border-box;
+  color: #0f172a;
+}
+
+.supplies-heading {
+  margin-bottom: 28px;
+}
+
+.supplies-heading h1 {
+  margin: 0 0 8px;
+  color: #0f172a;
+  font-size: 30px;
+}
+
+.supplies-heading p {
+  margin: 0;
+  color: #64748b;
+}
+
+.supplies-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.supplies-summary-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px 24px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: white;
+}
+
+.supplies-summary-card > span {
+  color: #64748b;
+  font-size: 14px;
+}
+
+.supplies-summary-card strong {
+  color: #0f172a;
+  font-size: 28px;
+}
+
+.supplies-summary-card small {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.supplies-summary-shortage strong {
+  color: #b91c1c;
+}
+
+.supplies-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.supplies-toolbar input,
+.supplies-toolbar select {
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: white;
+  color: #0f172a;
+  font: inherit;
+  font-size: 14px;
+}
+
+.supplies-toolbar input {
+  width: 300px;
+  max-width: 100%;
+}
+
+.supplies-toolbar select {
+  min-width: 180px;
+}
+
+.supplies-result-count {
+  margin-left: auto;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.supplies-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: white;
+}
+
+.supplies-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.supplies-table th,
+.supplies-table td {
+  padding: 16px 20px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.supplies-table th {
+  background: #f8fafc;
+  color: #475569;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.supplies-table td {
+  font-size: 15px;
+}
+
+.supplies-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.supplies-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+.supplies-item-name {
+  font-weight: 600;
+}
+
+.supplies-status {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.supplies-status.is-shortage {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.supplies-status.is-stocked {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.supplies-empty {
+  padding: 24px;
+  color: #64748b;
+  text-align: center;
+}
+
+.supplies-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 768px) {
+  .supplies-page {
+    padding: 16px;
+  }
+
+  .supplies-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .supplies-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .supplies-toolbar input,
+  .supplies-toolbar select {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .supplies-result-count {
+    margin-left: 0;
+  }
+}
