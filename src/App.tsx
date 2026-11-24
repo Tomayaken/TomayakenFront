@@ -3,11 +3,12 @@ import { useState } from "react";
 import Dashboard from "./pages/Dashboard";
 import ShelterList from "./pages/ShelterList";
 import ShelterDetail from "./pages/ShelterDetail";
+import SupplyManagement from "./pages/SupplyManagement";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import type { Shelter } from "./data/mockDashboard";
 
-type Page = "dashboard" | "shelters";
+type Page = "dashboard" | "shelters" | "supplies";
 
 function App() {
   const [page, setPage] = useState<Page>("dashboard");
@@ -34,18 +35,17 @@ function App() {
 
         {page === "dashboard" && <Dashboard />}
 
-        {page === "shelters" && (
-          selectedShelter ? (
+        {page === "shelters" &&
+          (selectedShelter ? (
             <ShelterDetail
               shelter={selectedShelter}
               onBack={() => setSelectedShelter(null)}
             />
           ) : (
-            <ShelterList
-              onSelectShelter={setSelectedShelter}
-            />
-          )
-        )}
+            <ShelterList onSelectShelter={setSelectedShelter} />
+          ))}
+
+        {page === "supplies" && <SupplyManagement />}
       </main>
     </div>
   );
