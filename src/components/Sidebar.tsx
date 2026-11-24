@@ -1,6 +1,8 @@
 
 type SidebarProps = {
-  onNavigate: (page: "dashboard" | "shelters" | "supplies") => void;
+  onNavigate: (
+    page: "dashboard" | "shelters" | "evacuees" | "supplies"
+  ) => void;
 };
 
 function Sidebar({ onNavigate }: SidebarProps) {
@@ -29,7 +31,9 @@ function Sidebar({ onNavigate }: SidebarProps) {
         🏢 避難所管理
       </p>
 
-      <p>👥 避難者管理</p>
+      <p onClick={() => onNavigate("evacuees")} style={{ cursor: "pointer" }}>
+        👥 避難者管理
+      </p>
 
       <p onClick={() => onNavigate("supplies")} style={{ cursor: "pointer" }}>
         📦 物資管理
