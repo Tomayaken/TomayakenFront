@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 
 import {
   fetchDashboardData,
+  DASHBOARD_API_ENABLED,
   type DashboardResponse,
 } from "../services/dashboardApi";
 
@@ -62,7 +63,9 @@ export default function Dashboard() {
         <p>全避難所の状況を確認できます。</p>
 
         <span className="demo-label">
-          ※ 現在はサンプルデータを表示しています
+          {DASHBOARD_API_ENABLED
+            ? "※ APIデータを表示しています（予測・必要量は未取得）"
+            : "※ 現在はサンプルデータを表示しています"}
         </span>
 
         {/* 更新ボタン */}
@@ -112,8 +115,8 @@ export default function Dashboard() {
                 <p className="card-label">{item.label}</p>
 
                 <div className="card-value">
-                  {item.value.toLocaleString()}
-                  <span className="card-unit">{item.unit}</span>
+                  {item.value === null ? "未取得" : item.value.toLocaleString()}
+                  <span className="card-unit">{item.value === null ? "" : item.unit}</span>
                 </div>
               </div>
             ))}
@@ -149,7 +152,7 @@ export default function Dashboard() {
                       <tr key={shelter.id}>
                         <td>{shelter.name}</td>
                         <td>{shelter.currentCount}人</td>
-                        <td>+{shelter.predictedCount}人</td>
+                        <td>{shelter.predictedCount === null ? "未取得" : `+${shelter.predictedCount}人`}</td>
                         <td>{shelter.capacity}人</td>
 
                         <td>
@@ -213,10 +216,9 @@ export default function Dashboard() {
 
                 <tbody>
                   {data.supplies.map((supply) => {
-                    const shortage = Math.max(
-                      0,
-                      supply.required - supply.stock
-                    );
+                    const shortage = supply.required === null
+                      ? null
+                      : Math.max(0, supply.required - supply.stock);
 
                     return (
                       <tr key={supply.id}>
@@ -227,24 +229,22 @@ export default function Dashboard() {
                           {supply.unit}
                         </td>
                         <td>
-                          {supply.required}
-                          {supply.unit}
+                          {supply.required === null ? "未取得" : `${supply.required}${supply.unit}`}
                         </td>
 
                         <td className="shortage-value">
-                          {shortage}
-                          {supply.unit}
+                          {shortage === null ? "未算出" : `${shortage}${supply.unit}`}
                         </td>
 
                         <td>
                           <span
                             className={`status-badge ${
-                              shortage > 0
+                              shortage === null ? "" : shortage > 0
                                 ? "status-high"
                                 : "status-low"
                             }`}
                           >
-                            {shortage > 0 ? "不足" : "充足"}
+                            {shortage === null ? "未判定" : shortage > 0 ? "不足" : "充足"}
                           </span>
                         </td>
                       </tr>
