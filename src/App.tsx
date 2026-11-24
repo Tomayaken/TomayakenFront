@@ -3,7 +3,7 @@ import { useState } from "react";
 import Dashboard from "./pages/Dashboard";
 import ShelterList from "./pages/ShelterList";
 import ShelterDetail from "./pages/ShelterDetail";
-import Busshikanri from "./pages/Busshikanri";
+import SupplyManagement from "./pages/SupplyManagement";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import type { Shelter } from "./data/mockDashboard";
@@ -35,20 +35,17 @@ function App() {
 
         {page === "dashboard" && <Dashboard />}
 
-        {page === "supplies" && <Busshikanri />}
-
-        {page === "shelters" && (
-          selectedShelter ? (
+        {page === "shelters" &&
+          (selectedShelter ? (
             <ShelterDetail
               shelter={selectedShelter}
               onBack={() => setSelectedShelter(null)}
             />
           ) : (
-            <ShelterList
-              onSelectShelter={setSelectedShelter}
-            />
-          )
-        )}
+            <ShelterList onSelectShelter={setSelectedShelter} />
+          ))}
+
+        {page === "supplies" && <SupplyManagement />}
       </main>
     </div>
   );

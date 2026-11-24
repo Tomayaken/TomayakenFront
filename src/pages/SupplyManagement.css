@@ -1,0 +1,125 @@
+
+.supply-management-page {
+  padding: 32px;
+  background: #f8fafc;
+  min-height: calc(100vh - 70px);
+  color: #1e293b;
+}
+
+.supply-management-page h1 {
+  font-size: 28px;
+  margin: 0 0 8px;
+}
+
+.supply-description {
+  color: #64748b;
+  margin-bottom: 20px;
+}
+
+.supply-mock-notice {
+  color: #92400e;
+  background: #fef3c7;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+.supply-section {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  margin-top: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.supply-section h2 {
+  font-size: 20px;
+  margin: 0 0 20px;
+}
+
+.supply-table-wrapper {
+  overflow-x: auto;
+}
+
+.supply-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.supply-table th,
+.supply-table td {
+  padding: 14px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.supply-table th {
+  background: #f1f5f9;
+  font-weight: 600;
+}
+
+.supply-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: end;
+}
+
+.supply-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 180px;
+}
+
+.supply-field label {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.supply-field select,
+.supply-field input {
+  padding: 11px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: white;
+  font-size: 14px;
+}
+
+.supply-submit-button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  background: #2563eb;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.supply-submit-button:hover {
+  background: #1d4ed8;
+}
+
+.supply-message {
+  margin-top: 16px;
+  color: #0369a1;
+}
+
+.supply-empty {
+  color: #64748b;
+}
+
+@media (max-width: 768px) {
+  .supply-management-page {
+    padding: 20px;
+  }
+
+  .supply-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .supply-field {
+    width: 100%;
+  }
+}
