@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { getShelters } from "../services/shelterApi";
 import {
@@ -51,6 +50,15 @@ const initialSupplies: Record<string, Supply[]> = {
     { id: "c-1", name: "飲料水", quantity: 150, unit: "本" },
   ],
 };
+
+function formatUnit(unit: string, supplyName: string): string {
+  switch (unit) {
+    case "bottle": return "本";
+    case "meal": return "食";
+    case "piece": return supplyName.includes("毛布") ? "枚" : "個";
+    default: return unit;
+  }
+}
 
 function formatDate(value: string) {
   const date = new Date(value);
@@ -336,7 +344,7 @@ function SupplyManagement() {
       setQuantity("");
       setNote("");
       setMessage(
-        `${target.name}を${amount}${target.unit}${
+        `${target.name}を${amount}${formatUnit(target.unit, target.name)}${
           operation === "IN" ? "入庫" : "配布"
         }しました。`
       );
@@ -417,7 +425,7 @@ function SupplyManagement() {
                 <tr key={item.id}>
                   <td>{item.name}</td>
                   <td>{item.quantity}</td>
-                  <td>{item.unit}</td>
+                  <td>{formatUnit(item.unit, item.name)}</td>
                 </tr>
               ))}
             </tbody>
@@ -468,7 +476,7 @@ function SupplyManagement() {
 
               {supplies.map((item) => (
                 <option key={item.id} value={item.id}>
-                  {item.name}
+                  {item.name}（{formatUnit(item.unit, item.name)}）
                 </option>
               ))}
             </select>
@@ -526,8 +534,7 @@ function SupplyManagement() {
               submitting ||
               loading ||
               supplies.length === 0 ||
-              !selectedShelterId ||
-              (API_ENABLED && Boolean(error))
+              !selectedShelterId
             }
           >
             {submitting
@@ -570,7 +577,7 @@ function SupplyManagement() {
                       {item.type === "IN" ? "入庫" : "配布"}
                     </td>
                     <td>
-                      {item.quantity} {item.unit}
+                      {item.quantity}{formatUnit(item.unit, item.supplyName)}
                     </td>
                   </tr>
                 ))}
